@@ -1,5 +1,7 @@
 package client;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -61,8 +63,15 @@ public class RowdyTalk extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
         
-        RowdyClient client = new RowdyClient("localhost", 9001);
-        client.run();
+        login_button.setOnAction(new EventHandler<ActionEvent>() {
+            @Override public void handle(ActionEvent e) {
+            	primaryStage.close();
+            	RowdyClient client = new RowdyClient(hostname_field.getText(), Integer.parseInt(port_field.getText()), username_field.getText());
+                client.run();
+            }
+        });
+        
+        
         
     }
  public static void main(String[] args) {

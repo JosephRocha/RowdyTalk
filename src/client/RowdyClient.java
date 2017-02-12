@@ -1,51 +1,65 @@
 package client;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.net.Socket;
-import java.net.UnknownHostException;
 
-public class RowdyClient {
+import MessageUtility.Message;
+
+public class RowdyClient implements Runnable {
 	 String host_name;
      int port_number;
+     String username;
+     private ObjectOutputStream object_output_stream;
+     private ObjectInputStream input_object_stream;
+     private InputStream input;
+     public static OutputStream output;
+     public Socket socket;
      
-	public RowdyClient(String host, int port) {
+	public RowdyClient(String host, int port, String user) {
 		this.host_name = host;
 		this.port_number = port;
+		this.username = user;
 	}
 	
 	public void run(){
-		 try (
-		            Socket kkSocket = new Socket(host_name, port_number);
-		            PrintWriter out = new PrintWriter(kkSocket.getOutputStream(), true);
-		            BufferedReader in = new BufferedReader(
-		                new InputStreamReader(kkSocket.getInputStream()));
-		        ) {
-		            BufferedReader stdIn =
-		                new BufferedReader(new InputStreamReader(System.in));
-		            String fromServer;
-		            String fromUser;
-		 
-		            while ((fromServer = in.readLine()) != null) {
-		                System.out.println("Server: " + fromServer);
-		                if (fromServer.equals("Bye."))
-		                    break;
-		                 
-		                fromUser = stdIn.readLine();
-		                if (fromUser != null) {
-		                    System.out.println("Client: " + fromUser);
-		                    out.println(fromUser);
-		                }
-		            }
-		        } catch (UnknownHostException e) {
-		            System.err.println("Don't know about host " + host_name);
-		            System.exit(1);
-		        } catch (IOException e) {
-		            System.err.println("Couldn't get I/O for the connection to " +
-		                host_name);
-		            System.exit(1);
-		        }
+		 try {
+		            socket = new Socket(host_name, port_number);
+		            output = socket.getOutputStream();   
+		            object_output_stream = new ObjectOutputStream(output);
+		            input = socket.getInputStream();
+		            input_object_stream = new ObjectInputStream(input);
+		    }catch(IOException e){
+		    	System.out.println("Count Not Connect to IO");
 		    }
+		 
+		 
+		 try{
+			 connect();
+			 System.out.println("Connecting...");
+			 while(socket.isConnected()){
+				 Message message = null;
+				 message = (Message) input_object_stream.readObject();
+				 
+				 if(message != null){
+					 System.out.println(message.getOrigin()+": " + message.getMessage());
+				 }
+				 
+			 }
+		 }  catch (IOException | ClassNotFoundException e) {
+			    System.err.println("BADBADBAD");
+	            e.printStackTrace();
+	        } 
+	}
+	
+	public void connect() throws IOException{
+		Message createMessage = new Message();
+        createMessage.setOrigin(username);
+        createMessage.setMessage("Connected");
+        object_output_stream.writeObject(createMessage);
+        System.out.println("Message Written To Output...");
+	}
 
 }
