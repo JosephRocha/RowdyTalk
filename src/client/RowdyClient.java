@@ -17,6 +17,7 @@ public class RowdyClient implements Runnable {
      private InputStream input;
      public static OutputStream output;
      public Socket socket;
+     public RowdyClient_GUI gui;
      
 	public RowdyClient(String host, int port, String user) {
 		this.host_name = host;
@@ -44,12 +45,11 @@ public class RowdyClient implements Runnable {
 				 message = (Message) input_object_stream.readObject();
 				 
 				 if(message != null){
-					 System.out.println(message.getOrigin()+": " + message.getMessage());
+					 gui.displayMessage(message);
 				 }
 				 
 			 }
 		 }  catch (IOException | ClassNotFoundException e) {
-			    System.err.println("BADBADBAD");
 	            e.printStackTrace();
 	        } 
 	}
@@ -60,6 +60,18 @@ public class RowdyClient implements Runnable {
         createMessage.setMessage("Connected");
         object_output_stream.writeObject(createMessage);
         System.out.println("Message Written To Output...");
+	}
+	
+	public void sendMessage(String msg) throws IOException{
+		Message newMessage = new Message();
+		newMessage.setMessage(msg);
+		newMessage.setOrigin(username);
+		object_output_stream.writeObject(newMessage);
+		object_output_stream.flush();
+	}
+	
+	public void setGUI(RowdyClient_GUI gui){
+		this.gui = gui;
 	}
 
 }

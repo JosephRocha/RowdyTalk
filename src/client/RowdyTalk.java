@@ -65,15 +65,22 @@ public class RowdyTalk extends Application {
         
         login_button.setOnAction(new EventHandler<ActionEvent>() {
             @Override public void handle(ActionEvent e) {
-            	primaryStage.close();
+            	primaryStage.hide();
             	RowdyClient client = new RowdyClient(hostname_field.getText(), Integer.parseInt(port_field.getText()), username_field.getText());
-                client.run();
+            	Thread x = new Thread(client);
+            	RowdyClient_GUI gui = new RowdyClient_GUI(hostname_field.getText(), Integer.parseInt(port_field.getText()), username_field.getText(), client);
+            	client.setGUI(gui);
+            	x.start();
+            	try {
+					gui.start(new Stage());
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
             }
         });
-        
-        
-        
     }
+    
  public static void main(String[] args) {
         launch(args);
     }

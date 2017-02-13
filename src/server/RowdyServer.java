@@ -1,5 +1,6 @@
 package server;
 import java.net.*;
+import java.util.ArrayList;
 
 import MessageUtility.Message;
 
@@ -7,6 +8,7 @@ import java.io.*;
  
 public class RowdyServer {
 	static int portNumber = 9001;
+	private static ArrayList<ObjectOutputStream> writers = new ArrayList<>();
     public static void main(String[] args) throws IOException {
          ServerSocket server = new ServerSocket(portNumber);
          
@@ -23,7 +25,10 @@ public class RowdyServer {
     
     
     public static class ServerHandler extends Thread{
+   
     	public Socket socket;
+    	ObjectOutputStream object_output_stream;
+    	
     	 public ServerHandler(Socket socket) throws IOException {
              this.socket = socket;
          }
@@ -37,12 +42,13 @@ public class RowdyServer {
     				 ){
     			 
     			 Message message = (Message) object_input_stream.readObject();
-    			 object_output_stream.writeObject(message);
-    			 System.out.println("Wrote Output Message...");
+    			 writers.add(object_output_stream);
+    			 broadcast(message);
+    			 
     			 while(socket.isConnected()){
     				 Message input_message = (Message) object_input_stream.readObject();
     				 if(input_message != null){
-    					 System.out.println("HEY");
+    					 broadcast(input_message);
     				 }
     			 }
     			 
@@ -51,10 +57,14 @@ public class RowdyServer {
 			}
     		 
     	 }
+    	 
+    public void broadcast(Message message) throws IOException{
+    	for(ObjectOutputStream writer: writers){
+    		writer.writeObject(message);
+    	}
     }
-    
- 
-    }
+  }
+}
     
     
 
