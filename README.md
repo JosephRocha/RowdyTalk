@@ -1,6 +1,5 @@
 # RowdyTalk
-
-# RowdyTalk is a lightweight chat application utilizing JavaFX.
+RowdyTalk is a lightweight chat application utilizing JavaFX.
 
 # Current Goals for RowdyTalk Are:
 - Fix Messaging System ✔ 2-12-2017
