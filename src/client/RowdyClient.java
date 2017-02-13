@@ -5,8 +5,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.Socket;
-
 import MessageUtility.Message;
+
 
 public class RowdyClient implements Runnable {
 	 String host_name;
@@ -39,7 +39,6 @@ public class RowdyClient implements Runnable {
 		 
 		 try{
 			 connect();
-			 System.out.println("Connecting...");
 			 while(socket.isConnected()){
 				 Message message = null;
 				 message = (Message) input_object_stream.readObject();
@@ -47,11 +46,11 @@ public class RowdyClient implements Runnable {
 				 if(message != null){
 					 gui.displayMessage(message);
 				 }
-				 
 			 }
 		 }  catch (IOException | ClassNotFoundException e) {
+			 
 	            e.printStackTrace();
-	        } 
+	   }  
 	}
 	
 	public void connect() throws IOException{
@@ -59,7 +58,7 @@ public class RowdyClient implements Runnable {
         createMessage.setOrigin(username);
         createMessage.setMessage("Connected");
         object_output_stream.writeObject(createMessage);
-        System.out.println("Message Written To Output...");
+        object_output_stream.flush();
 	}
 	
 	public void sendMessage(String msg) throws IOException{
@@ -73,5 +72,4 @@ public class RowdyClient implements Runnable {
 	public void setGUI(RowdyClient_GUI gui){
 		this.gui = gui;
 	}
-
 }
