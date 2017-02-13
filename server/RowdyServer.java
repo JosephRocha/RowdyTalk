@@ -35,7 +35,6 @@ public class RowdyServer {
          }
     	 
     	 public void run(){
-    		 	
     			InputStream input = null;
     			ObjectInputStream object_input_stream = null;
     			OutputStream output = null;
@@ -62,7 +61,17 @@ public class RowdyServer {
 	    			 }
 	    			 
 				} catch (IOException | ClassNotFoundException e) {
+					//Don't remove the line below or I will find you, and I will shove a stick up your ass.
 					writers.remove(object_output_stream);
+					Message message = new Message();
+					message.setOrigin("SERVER");
+					message.setMessage(username + " Has disconnected");
+					try {
+						broadcast(message);
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 					e.printStackTrace();
 				}
     	 }
