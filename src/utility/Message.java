@@ -1,10 +1,13 @@
-package MessageUtility;
+package utility;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class Message implements Serializable {
+
 	private String message_content;
 	private String origin_user;
+	private ArrayList<String> users;
 	
 	public Message(){	
 	}
@@ -17,11 +20,19 @@ public class Message implements Serializable {
 		this.origin_user = origin_user;
 	}
 	
+	public void setUsers(ArrayList<String> users){
+		this.users = users;
+	}
+	
 	public String getMessage(){
 		return message_content;
 	}
 	
 	public String getOrigin(){
 		return origin_user;
+	}
+	
+	public ArrayList<String> getUsers(){
+		return users;
 	}
 }

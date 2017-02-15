@@ -1,22 +1,20 @@
 package server;
 import java.net.*;
 import java.util.ArrayList;
-
-import MessageUtility.Message;
-
+import utility.Message;
 import java.io.*;
  
 public class RowdyServer {
-	static int portNumber = 9001;
+	private static int portNumber = 9001;
 	private static ArrayList<ObjectOutputStream> writers = new ArrayList<ObjectOutputStream>();
-	private static ArrayList<ServerHandler> handlers = new ArrayList<ServerHandler>();
+	private static ArrayList<String> users = new ArrayList<String>();
+	
     public static void main(String[] args) throws IOException {
          ServerSocket server = new ServerSocket(portNumber);
          
          try{
         	 while(true){
         		 ServerHandler newConnection = new ServerHandler(server.accept());
-        		 handlers.add(newConnection);
         		 newConnection.start();
         	 }
           } catch (Exception e) {
@@ -50,26 +48,29 @@ public class RowdyServer {
 	    			 Message message = (Message) object_input_stream.readObject();
 	    			 writers.add(object_output_stream);
 	    			 username = message.getOrigin();
+	    			 users.add(username);
+	    			 message.setOrigin("SERVER");
+	    			 message.setMessage(username + " has connected");
 	    			 broadcast(message);
 	    			 
 	    			 
 	    			 while(socket.isConnected()){
 	    				 Message input_message = (Message) object_input_stream.readObject();
 	    				 if(input_message != null){
+	    					 input_message.setUsers(users);
 	    					 broadcast(input_message);
 	    				 }
 	    			 }
 	    			 
 				} catch (IOException | ClassNotFoundException e) {
-					//Don't remove the line below or I will find you, and I will shove a stick up your ass.
 					writers.remove(object_output_stream);
+					users.remove(username);
 					Message message = new Message();
 					message.setOrigin("SERVER");
-					message.setMessage(username + " Has disconnected");
+					message.setMessage(username + " has disconnected");
 					try {
 						broadcast(message);
 					} catch (IOException e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 					e.printStackTrace();
@@ -78,11 +79,10 @@ public class RowdyServer {
 
     public void broadcast(Message message) throws IOException{
     	for(ObjectOutputStream writer: writers){
+    		message.setUsers(users);
     		writer.writeObject(message);
     	}
     }
+     
   }
 }
-    
-    
-

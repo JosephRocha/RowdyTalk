@@ -1,24 +1,33 @@
 package client;
 
-import MessageUtility.Message;
+import java.io.IOException;
+
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import utility.Message;
 
 public class RowdyClient_GUI extends Application implements Runnable  {
 	public String host_name;
     public int port_number;
     public String username;
     public Stage ClientChatGUI;
-    RowdyClient client;
+    public RowdyClient client;
     public TextArea history;
+    public TextArea text;
+    ListView<String> users;
+    ObservableList<String> userNames;
     
 	public RowdyClient_GUI(String host, int port, String user, RowdyClient client) {
 		this.host_name = host;
@@ -29,11 +38,15 @@ public class RowdyClient_GUI extends Application implements Runnable  {
 
 	@Override
 	public void start(Stage stage) throws Exception {
-		
 		Pane root = new Pane();
 		root.setStyle("-fx-background-color: #0c2340");
     	stage.setTitle("RowdyTalk @" + host_name + ":" + port_number);
-    	stage.setScene(new Scene(root, 450, 450));
+    	stage.setScene(new Scene(root, 605, 450));
+    	
+    	text = new TextArea();
+    	text.setLayoutX(5);
+    	text.setLayoutY(400);
+    	text.setPrefSize(340, 45);
     	
         history = new TextArea();
     	history.setLayoutX(5);
@@ -42,11 +55,6 @@ public class RowdyClient_GUI extends Application implements Runnable  {
     	history.setPrefSize(440, 385);
     	history.setWrapText(true);
     	
-    	TextArea text = new TextArea();
-    	text.setLayoutX(5);
-    	text.setLayoutY(400);
-    	text.setPrefSize(340, 45);
-    	
     	
     	Button sendButton = new Button();
     	sendButton.setLayoutX(350);
@@ -54,10 +62,37 @@ public class RowdyClient_GUI extends Application implements Runnable  {
     	sendButton.setText("Send Message");
     	sendButton.setPrefSize(95, 45);
     	sendButton.setStyle("-fx-background-color: #f15a22; -fx-text-fill: #0c2340;");
-
     	
-    	root.getChildren().addAll(history, text, sendButton);
+        users = new ListView<String>();
+        users.setLayoutX(450);
+        users.setLayoutY(5);
+        users.setPrefWidth(150);
+        users.setPrefHeight(440);
+        users.setItems(userNames);
+
+    	root.getChildren().addAll(history, text, users, sendButton);
     	stage.show();
+    	
+    	text.requestFocus();
+    	text.setOnKeyPressed(new EventHandler<KeyEvent>()
+        {
+            @Override
+            public void handle(KeyEvent ke)
+            {
+                if (ke.getCode().equals(KeyCode.ENTER))
+                {
+                	try {
+						client.sendMessage(text.getText());
+	              		text.clear();
+	              		ke.consume();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+                }
+            }
+        });
+    	
     	  sendButton.setOnAction(new EventHandler<ActionEvent>() {
               @Override public void handle(ActionEvent e) {
               	try {
@@ -74,25 +109,22 @@ public class RowdyClient_GUI extends Application implements Runnable  {
               public void handle(WindowEvent we) {
                   System.exit(0);
               }
-          });      
+          });    
+    	  
 	}
 	
-	public void displayMessage(Message message){
+	public void displayMessage(Message message){	
 		history.appendText(message.getOrigin() + ": " + message.getMessage() + "\n");	
+		userNames = FXCollections.observableArrayList(message.getUsers());
+		users.setItems(userNames);
 	}
-	
-	@FXML
-    public void closeApplication() {
-		
-    }
 	
 	@Override
 	public void run() {
-		try {
-			start(new Stage());
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+			try {
+				start(new Stage());
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 	}
 }

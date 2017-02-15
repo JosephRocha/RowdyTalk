@@ -5,7 +5,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.Socket;
-import MessageUtility.Message;
+
+import utility.Message;
 
 
 public class RowdyClient implements Runnable {
