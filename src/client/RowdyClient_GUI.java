@@ -3,6 +3,7 @@ package client;
 import java.io.IOException;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -26,8 +27,8 @@ public class RowdyClient_GUI extends Application implements Runnable  {
     public RowdyClient client;
     public TextArea history;
     public TextArea text;
-    ListView<String> users;
-    ObservableList<String> userNames;
+    ListView<String> userListView;
+    ObservableList<String> userObservableList;
     
 	public RowdyClient_GUI(String host, int port, String user, RowdyClient client) {
 		this.host_name = host;
@@ -63,14 +64,14 @@ public class RowdyClient_GUI extends Application implements Runnable  {
     	sendButton.setPrefSize(95, 45);
     	sendButton.setStyle("-fx-background-color: #f15a22; -fx-text-fill: #0c2340;");
     	
-        users = new ListView<String>();
-        users.setLayoutX(450);
-        users.setLayoutY(5);
-        users.setPrefWidth(150);
-        users.setPrefHeight(440);
-        users.setItems(userNames);
+        userListView = new ListView<String>();
+        userListView.setLayoutX(450);
+        userListView.setLayoutY(5);
+        userListView.setPrefWidth(150);
+        userListView.setPrefHeight(440);
+        userListView.setItems(userObservableList);
 
-    	root.getChildren().addAll(history, text, users, sendButton);
+    	root.getChildren().addAll(history, text, userListView, sendButton);
     	stage.show();
     	
     	text.requestFocus();
@@ -114,9 +115,16 @@ public class RowdyClient_GUI extends Application implements Runnable  {
 	}
 	
 	public void displayMessage(Message message){	
-		history.appendText(message.getOrigin() + ": " + message.getMessage() + "\n");	
-		userNames = FXCollections.observableArrayList(message.getUsers());
-		users.setItems(userNames);
+		Platform.runLater(new Runnable(){
+			@Override
+			public void run() {
+				history.appendText(message.getOrigin() + ": " + message.getMessage() + "\n");
+				userObservableList = FXCollections.observableArrayList(message.getUsers());
+				userObservableList.clear();
+				userObservableList = FXCollections.observableArrayList(message.getUsers());
+				userListView.setItems(userObservableList);
+			}
+		});
 	}
 	
 	@Override

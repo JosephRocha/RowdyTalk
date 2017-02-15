@@ -28,9 +28,9 @@ public class RowdyTalk extends Application {
     	
     	stage = primaryStage;
     	username_label = new Label("Username: ");
-    	username_field = new TextField("Rocha" + Math.random());
+    	username_field = new TextField("Rocha");
     	hostname_label = new Label("Hostname: ");
-    	hostname_field = new TextField("localhost");
+    	hostname_field = new TextField();
     	port_label = new Label("Port: ");
     	port_field = new TextField("9001");
     	login_button = new Button();
@@ -72,7 +72,7 @@ public class RowdyTalk extends Application {
         root.getChildren().addAll(username_label, username_field, hostname_label, hostname_field, port_label, port_field, login_button, rowdytalk_heading);
         Scene scene = new Scene(root, 300, 400);
         root.setStyle("-fx-background-color: #0c2340");
-        primaryStage.setTitle("RowdyTalk Beta 1.0");
+        primaryStage.setTitle("RowdyTalk Beta 1.1");
         primaryStage.setScene(scene);
         primaryStage.setResizable(false);
         primaryStage.show();

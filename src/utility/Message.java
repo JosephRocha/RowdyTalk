@@ -7,7 +7,7 @@ public class Message implements Serializable {
 
 	private String message_content;
 	private String origin_user;
-	private ArrayList<String> users;
+	public ArrayList<String> userList = new ArrayList<String>();
 	
 	public Message(){	
 	}
@@ -21,7 +21,7 @@ public class Message implements Serializable {
 	}
 	
 	public void setUsers(ArrayList<String> users){
-		this.users = users;
+		
 	}
 	
 	public String getMessage(){
@@ -33,6 +33,6 @@ public class Message implements Serializable {
 	}
 	
 	public ArrayList<String> getUsers(){
-		return users;
+		return userList;
 	}
 }

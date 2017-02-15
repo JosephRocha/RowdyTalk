@@ -1,6 +1,10 @@
 package server;
 import java.net.*;
 import java.util.ArrayList;
+
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 import utility.Message;
 import java.io.*;
  
@@ -44,7 +48,6 @@ public class RowdyServer {
 					output = socket.getOutputStream();
 	    			object_output_stream = new ObjectOutputStream(output);
 	    			
-	    			 
 	    			 Message message = (Message) object_input_stream.readObject();
 	    			 writers.add(object_output_stream);
 	    			 username = message.getOrigin();
@@ -57,7 +60,6 @@ public class RowdyServer {
 	    			 while(socket.isConnected()){
 	    				 Message input_message = (Message) object_input_stream.readObject();
 	    				 if(input_message != null){
-	    					 input_message.setUsers(users);
 	    					 broadcast(input_message);
 	    				 }
 	    			 }
@@ -78,8 +80,8 @@ public class RowdyServer {
     	 }
 
     public void broadcast(Message message) throws IOException{
+    	message.userList.addAll(users);
     	for(ObjectOutputStream writer: writers){
-    		message.setUsers(users);
     		writer.writeObject(message);
     	}
     }
