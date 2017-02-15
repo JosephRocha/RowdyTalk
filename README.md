@@ -10,7 +10,7 @@ RowdyTalk is a lightweight chat application utilizing JavaFX.
 - Resizing
 - Spell Check
 - Server GUI
-- Pretty Custom GUI Elements
+- Custom Chat Bubbles
 - User-List ✔ 2-15-2017
 - User Profiles and Pictures
 - Simple IBM Watson Integration
