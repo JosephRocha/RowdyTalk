@@ -6,6 +6,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
@@ -28,11 +29,11 @@ public class RowdyTalk extends Application {
     	
     	stage = primaryStage;
     	username_label = new Label("Username: ");
-    	username_field = new TextField("Rocha");
+    	username_field = new TextField();
     	hostname_label = new Label("Hostname: ");
     	hostname_field = new TextField();
     	port_label = new Label("Port: ");
-    	port_field = new TextField("9001");
+    	port_field = new TextField();
     	login_button = new Button();
     	rowdytalk_heading = new Label("RowdyTalk");
     	
@@ -61,7 +62,6 @@ public class RowdyTalk extends Application {
     	login_button.setLayoutY(250);
     	login_button.setText("Connect To RowdyTalk");
     	login_button.setPrefSize(225, 25);
-    	login_button.setStyle("-fx-background-color: #f15a22; -fx-text-fill: #0c2340;");
     	
     	rowdytalk_heading.setStyle("-fx-text-fill: #f15a22;");
     	rowdytalk_heading.setLayoutX(50);
@@ -75,6 +75,7 @@ public class RowdyTalk extends Application {
         primaryStage.setTitle("RowdyTalk Beta 1.1");
         primaryStage.setScene(scene);
         primaryStage.setResizable(false);
+        scene.getStylesheets().add("Res/Stylesheet.css");
         primaryStage.show();
         
         root.setOnKeyPressed(new EventHandler<KeyEvent>()

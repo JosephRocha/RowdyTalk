@@ -39,11 +39,6 @@ public class RowdyClient_GUI extends Application implements Runnable  {
 
 	@Override
 	public void start(Stage stage) throws Exception {
-		Pane root = new Pane();
-		root.setStyle("-fx-background-color: #0c2340");
-    	stage.setTitle("RowdyTalk @" + host_name + ":" + port_number);
-    	stage.setScene(new Scene(root, 605, 450));
-    	
     	text = new TextArea();
     	text.setLayoutX(5);
     	text.setLayoutY(400);
@@ -62,15 +57,23 @@ public class RowdyClient_GUI extends Application implements Runnable  {
     	sendButton.setLayoutY(400);
     	sendButton.setText("Send Message");
     	sendButton.setPrefSize(95, 45);
-    	sendButton.setStyle("-fx-background-color: #f15a22; -fx-text-fill: #0c2340;");
     	
         userListView = new ListView<String>();
         userListView.setLayoutX(450);
         userListView.setLayoutY(5);
         userListView.setPrefWidth(150);
         userListView.setPrefHeight(440);
+        userListView.setDisable(true);
         userListView.setItems(userObservableList);
 
+    	Pane root = new Pane();
+		root.setStyle("-fx-background-color: #0c2340");
+    	stage.setTitle("RowdyTalk @" + host_name + ":" + port_number);
+    	Scene scene = new Scene(root, 605, 450);
+    	scene.getStylesheets().add("Res/Stylesheet.css");
+    	stage.setScene(scene);
+    	
+    
     	root.getChildren().addAll(history, text, userListView, sendButton);
     	stage.show();
     	
