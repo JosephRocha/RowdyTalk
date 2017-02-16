@@ -7,7 +7,7 @@ public class Message implements Serializable {
 
 	private String message_content;
 	private String origin_user;
-	public ArrayList<String> userList = new ArrayList<String>();
+	public ArrayList<String> user_list = new ArrayList<String>();
 	
 	public Message(){	
 	}
@@ -33,6 +33,6 @@ public class Message implements Serializable {
 	}
 	
 	public ArrayList<String> getUsers(){
-		return userList;
+		return user_list;
 	}
 }

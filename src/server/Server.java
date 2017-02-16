@@ -52,7 +52,7 @@ public class Server {
 	    				 Message IllegalUsername = new Message();
 	    				 IllegalUsername.setOrigin("SERVER");
 	    				 IllegalUsername.setMessage("Username is already active or reserved on this server, please exit and try again.");
-	    				 IllegalUsername.userList.addAll(users);
+	    				 IllegalUsername.user_list.addAll(users);
 	    				 object_output_stream.writeObject(IllegalUsername);
 	    				 socket.close();
 	    				 kicked = true;
@@ -91,7 +91,7 @@ public class Server {
     	 }
 
     public void broadcast(Message message) throws IOException{
-    	message.userList.addAll(users);
+    	message.user_list.addAll(users);
     	for(ObjectOutputStream writer: writers){
     		writer.writeObject(message);
     	}

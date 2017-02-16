@@ -26,8 +26,12 @@ public class RowdyTalk extends Application {
     @Override
     public void start(Stage primaryStage) {
     	stage = primaryStage;
-    	
+
     	Pane root = new Pane();
+    	root.setStyle("-fx-background-color: #0c2340");
+    	
+    	Scene scene = new Scene(root, 300, 400);
+    	scene.getStylesheets().add("Res/Stylesheet.css");
     	
     	username_label = new Label("Username: ");
     	username_label.setLayoutX(50);
@@ -71,13 +75,10 @@ public class RowdyTalk extends Application {
     	rowdytalk_heading.setLayoutY(15);
     	rowdytalk_heading.setFont(new Font(45));
         root.getChildren().add(rowdytalk_heading);
-        
-        Scene scene = new Scene(root, 300, 400);
-        root.setStyle("-fx-background-color: #0c2340");
+
         primaryStage.setTitle("RowdyTalk Beta 1.1");
         primaryStage.setScene(scene);
         primaryStage.setResizable(false);
-        scene.getStylesheets().add("Res/Stylesheet.css");
         primaryStage.show();
         
         root.setOnKeyPressed(new EventHandler<KeyEvent>()
@@ -98,7 +99,6 @@ public class RowdyTalk extends Application {
             }
         });
     }
-    
     
     /**
    	 * Connect
