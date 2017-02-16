@@ -19,18 +19,18 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import utility.Message;
 
-public class RowdyClient_GUI extends Application implements Runnable  {
+public class Client_GUI extends Application implements Runnable  {
 	public String host_name;
     public int port_number;
     public String username;
     public Stage ClientChatGUI;
-    public RowdyClient client;
+    public Client client;
     public TextArea history;
     public TextArea text;
     ListView<String> userListView;
     ObservableList<String> userObservableList;
     
-	public RowdyClient_GUI(String host, int port, String user, RowdyClient client) {
+	public Client_GUI(String host, int port, String user, Client client) {
 		this.host_name = host;
 		this.port_number = port;
 		this.username = user;

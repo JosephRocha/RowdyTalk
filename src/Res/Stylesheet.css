@@ -9,3 +9,7 @@
 .list-view:disabled {
     -fx-opacity: -fx-disabled-opacity;
 }
+
+.label {
+	-fx-text-fill: #f15a22;
+}

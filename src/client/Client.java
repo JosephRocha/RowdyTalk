@@ -9,7 +9,7 @@ import java.net.Socket;
 import utility.Message;
 
 
-public class RowdyClient implements Runnable {
+public class Client implements Runnable {
 	 String host_name;
      int port_number;
      String username;
@@ -18,9 +18,9 @@ public class RowdyClient implements Runnable {
      private InputStream input;
      public static OutputStream output;
      public Socket socket;
-     public RowdyClient_GUI gui;
+     public Client_GUI gui;
      
-	public RowdyClient(String host, int port, String user) {
+	public Client(String host, int port, String user) {
 		this.host_name = host;
 		this.port_number = port;
 		this.username = user;
@@ -49,17 +49,17 @@ public class RowdyClient implements Runnable {
 				 }
 			 }
 		 }  catch (IOException | ClassNotFoundException e) {
-			 
+			    cannotConnect();
 	            e.printStackTrace();
 	   }  
 	}
 	
 	public void connect() throws IOException{
-		Message createMessage = new Message();
-        createMessage.setOrigin(username);
-        createMessage.setMessage("Connected");
-        object_output_stream.writeObject(createMessage);
-        object_output_stream.flush();
+        	Message createMessage = new Message();
+            createMessage.setOrigin(username);
+            createMessage.setMessage("Connected");
+			object_output_stream.writeObject(createMessage);
+			object_output_stream.flush();
 	}
 	
 	public void sendMessage(String msg) throws IOException{
@@ -70,7 +70,14 @@ public class RowdyClient implements Runnable {
 		object_output_stream.flush();
 	}
 	
-	public void setGUI(RowdyClient_GUI gui){
+	public void setGUI(Client_GUI gui){
 		this.gui = gui;
+	}
+	
+	public void cannotConnect(){
+		Message CannotConnect = new Message();
+	    CannotConnect.setOrigin("ERROR");
+	    CannotConnect.setMessage("Cannot Establish Connection to server, please exit and try again.");
+	    gui.displayMessage(CannotConnect);
 	}
 }
