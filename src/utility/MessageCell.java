@@ -15,7 +15,6 @@ public class MessageCell extends ListCell<Message> {
       }else{
           HBox node = new HBox();
           Text text  = new Text(item.getOrigin() + ": " + item.getMessage() + "\n"); 
-          System.out.println(item.toString());
           if(item.getType() == MessageType.SERVER_NOTIFICATION){
         	  node.setId("serverMessage");
     	  }
