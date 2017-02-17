@@ -1,7 +1,7 @@
 # RowdyTalk
 RowdyTalk is a lightweight chat application utilizing JavaFX.
 
-![Alt text](https://raw.githubusercontent.com/JosephARocha/RowdyTalk/master/resources/demo2.PNG "Screen shot showing current release")
+![Alt text](https://raw.githubusercontent.com/JosephARocha/RowdyTalk/master/resources/demo3.PNG "Screen shot showing current release")
 
 # Current Goals for RowdyTalk
 - Fix Messaging System ✔ 2-12-2017
