@@ -28,7 +28,7 @@ public class MessageCell extends ListCell<Message> {
         	  node.setId("receivedMessage");
     	  }
           if(item.getType() == MessageType.ERROR){
-        	  text.setText(item.getOrigin() + ": " + item.getMessage() + "\n");
+        	  text.setText(item.getMessage() + "\n");
         	  node.setId("errorMessage");
     	  }
     	node.setAlignment(Pos.CENTER);

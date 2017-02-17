@@ -48,7 +48,7 @@ public class Server {
 	    			 Message message = (Message) object_input_stream.readObject();
 	    			 username = message.getOrigin();
 	    			 
-	    			 if(username.equals("SERVER") || users.contains(username)){
+	    			 if(username.equals("SERVER") || users.contains(username) || (username.startsWith(" ") && username.endsWith(" "))){
 	    				 Message IllegalUsername = new Message();
 	    				 IllegalUsername.setOrigin("SERVER");
 	    				 IllegalUsername.setMessage("Username is already active or reserved on this server, please exit and try again.");

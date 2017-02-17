@@ -78,7 +78,7 @@ public class Client implements Runnable {
 	public void cannotConnect(){
 		Message CannotConnect = new Message();
 	    CannotConnect.setOrigin("ERROR");
-	    CannotConnect.setMessage("Cannot Establish Connection to server, please exit and try again.");
+	    CannotConnect.setMessage("Cannot establish connection to server, please exit and try again.");
 	    gui.displayMessage(CannotConnect);
 	}
 }
