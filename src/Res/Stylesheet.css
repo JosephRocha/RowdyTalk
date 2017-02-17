@@ -18,10 +18,34 @@
 	-fx-border-radius: 4 4 4 4;
     -fx-background-radius: 4 4 4 4;
     -fx-padding: 4px ;
-    -fx-background-color: transparent, -fx-background ;
+    -fx-background-color: transparent;
     -fx-background-insets: 0px, 2px ;
 }
 
 .list-cell:empty {
     -fx-background-color: transparent ;
+}
+
+#serverMessage{
+	-fx-border-radius: 4 4 4 4;
+    -fx-background-radius: 4 4 4 4;
+    -fx-padding: 2px ;
+    -fx-background-color: #fdff79;
+    -fx-background-insets: 0px, 0px ;
+}
+
+#sentMessage{
+	-fx-border-radius: 4 4 4 4;
+    -fx-background-radius: 4 4 4 4;
+    -fx-padding: 2px ;
+    -fx-background-color: #00ce48;
+    -fx-background-insets: 0px, 0px ;
+}
+
+#receivedMessage{
+	-fx-border-radius: 4 4 4 4;
+    -fx-background-radius: 4 4 4 4;
+    -fx-padding: 2px ;
+    -fx-background-color: #e5e5ea;
+    -fx-background-insets: 0px, 0px ;
 }

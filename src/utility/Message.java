@@ -8,6 +8,7 @@ public class Message implements Serializable {
 	private String message_content;
 	private String origin_user;
 	public ArrayList<String> user_list = new ArrayList<String>();
+	private MessageType type;
 	
 	public Message(){	
 	}
@@ -33,5 +34,13 @@ public class Message implements Serializable {
 	
 	public ArrayList<String> getUsers(){
 		return user_list;
+	}
+
+	public MessageType getType() {
+		return type;
+	}
+
+	public void setType(MessageType type) {
+		this.type = type;
 	}
 }

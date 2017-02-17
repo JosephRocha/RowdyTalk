@@ -21,6 +21,7 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import utility.Message;
 import utility.MessageCell;
+import utility.MessageType;
 import utility.UserCell;
 
 public class Client_GUI extends Application implements Runnable  {
@@ -28,12 +29,12 @@ public class Client_GUI extends Application implements Runnable  {
     private int port_number;
     private String user_name;
     private Client client;
-    private ListView<String> history_list_view;
+    private ListView<Message> history_list_view;
     private TextArea text;
     private ListView<String> user_list_view;
     private ObservableList<String> user_observable_list;
-    private ObservableList<String> history_observable_list;
-    private ArrayList<String> history = new ArrayList<String>();
+    private ObservableList<Message> history_observable_list;
+    private ArrayList<Message> history = new ArrayList<Message>();
     
 	public Client_GUI(String host, int port, String user, Client client) {
 		this.host_name = host;
@@ -57,18 +58,16 @@ public class Client_GUI extends Application implements Runnable  {
     	text.requestFocus();
     	root.getChildren().add(text);
     	
-        history_list_view = new ListView<String>();
+        history_list_view = new ListView<Message>();
     	history_list_view.setLayoutX(5);
     	history_list_view.setLayoutY(5);
     	history_list_view.setEditable(false);
     	history_list_view.setPrefSize(440, 385);
-        history_list_view.setCellFactory((ListView<String> l) -> new MessageCell());
-       
-        
-        
+    	history_observable_list = FXCollections.observableArrayList();
+        history_list_view.setItems(history_observable_list);
+        history_list_view.setCellFactory((ListView<Message> l) -> new MessageCell());
         history_list_view.setStyle("-fx-background-color: transparent;");
     	root.getChildren().add(history_list_view);
-    	user_observable_list = FXCollections.observableArrayList();
     	
     	Button sendButton = new Button();
     	sendButton.setLayoutX(350);
@@ -81,7 +80,9 @@ public class Client_GUI extends Application implements Runnable  {
         user_list_view.setLayoutX(450);
         user_list_view.setLayoutY(5);
         user_list_view.setPrefSize(150, 440);
+        user_observable_list = FXCollections.observableArrayList();
         user_list_view.setItems(user_observable_list);
+        user_list_view.setStyle("");
         user_list_view.setCellFactory((ListView<String> l) -> new UserCell());
         root.getChildren().add(user_list_view);
 
@@ -140,12 +141,26 @@ public class Client_GUI extends Application implements Runnable  {
 		Platform.runLater(new Runnable(){
 			@Override
 			public void run() {
-				history.add(message.getOrigin() + ": " + message.getMessage() + "\n");
+				
+				if(message.getOrigin().equals(user_name)){
+					message.setType(MessageType.SENT);
+				}else{
+				if(message.getOrigin().equals("SERVER")){
+					message.setType(MessageType.SERVER_NOTIFICATION);
+				}else{
+					message.setType(MessageType.RECEIVED);
+				}
+			}
+					
+				history.add(message);
+			
+				history_observable_list.clear();
 				history_observable_list = FXCollections.observableArrayList(history);
+				history_list_view.setItems(history_observable_list);
+				
 				user_observable_list.clear();
 				user_observable_list = FXCollections.observableArrayList(message.getUsers());
 				user_list_view.setItems(user_observable_list);
-				history_list_view.setItems(history_observable_list);
 				history_list_view.scrollTo(history.size()-1); 
 			}
 		});
