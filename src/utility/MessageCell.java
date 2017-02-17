@@ -14,19 +14,26 @@ public class MessageCell extends ListCell<Message> {
     	  setStyle("");
       }else{
           HBox node = new HBox();
-          Text text  = new Text(item.getOrigin() + ": " + item.getMessage() + "\n"); 
-          if(item.getType() == MessageType.SERVER_NOTIFICATION){
+          Text text  = new Text(); 
+          if(item.getType() == MessageType.SERVER){
         	  node.setId("serverMessage");
+        	  text.setText(item.getMessage() + "\n");
     	  }
           if(item.getType() == MessageType.SENT){
+        	  text.setText(item.getOrigin() + ": " + item.getMessage() + "\n");
         	  node.setId("sentMessage");
     	  }
           if(item.getType() == MessageType.RECEIVED){
+        	  text.setText(item.getOrigin() + ": " + item.getMessage() + "\n");
         	  node.setId("receivedMessage");
     	  }
-    	node.setAlignment(Pos.CENTER_LEFT);
+          if(item.getType() == MessageType.ERROR){
+        	  text.setText(item.getOrigin() + ": " + item.getMessage() + "\n");
+        	  node.setId("errorMessage");
+    	  }
+    	node.setAlignment(Pos.CENTER);
         node.getChildren().add(text);
-        text.setWrappingWidth(420);
+        text.setWrappingWidth(410);
         setGraphic(node);
       }
     }

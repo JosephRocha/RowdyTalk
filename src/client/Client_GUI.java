@@ -86,6 +86,7 @@ public class Client_GUI extends Application implements Runnable  {
         user_list_view.setCellFactory((ListView<String> l) -> new UserCell());
         root.getChildren().add(user_list_view);
 
+
     	stage.setTitle("RowdyTalk @" + host_name + ":" + port_number);
     	stage.setScene(scene);
     	
@@ -142,15 +143,16 @@ public class Client_GUI extends Application implements Runnable  {
 			@Override
 			public void run() {
 				
-				if(message.getOrigin().equals(user_name)){
+				if(message.getOrigin().equals(user_name))
 					message.setType(MessageType.SENT);
-				}else{
-				if(message.getOrigin().equals("SERVER")){
-					message.setType(MessageType.SERVER_NOTIFICATION);
-				}else{
-					message.setType(MessageType.RECEIVED);
-				}
-			}
+				else	
+				if(message.getOrigin().equals("SERVER"))
+					message.setType(MessageType.SERVER);
+				else
+				if(message.getOrigin().equals("ERROR"))
+					message.setType(MessageType.ERROR);
+				else	
+				message.setType(MessageType.RECEIVED);
 					
 				history.add(message);
 			

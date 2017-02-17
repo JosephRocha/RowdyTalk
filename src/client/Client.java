@@ -34,6 +34,7 @@ public class Client implements Runnable {
 		            input = socket.getInputStream();
 		            input_object_stream = new ObjectInputStream(input);
 		    }catch(IOException e){
+		    	cannotConnect();
 		    	System.out.println("Count Not Connect to IO");
 		    }
 		 

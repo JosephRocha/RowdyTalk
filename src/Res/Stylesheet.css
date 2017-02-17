@@ -49,3 +49,11 @@
     -fx-background-color: #e5e5ea;
     -fx-background-insets: 0px, 0px ;
 }
+
+#errorMessage{
+	-fx-border-radius: 4 4 4 4;
+    -fx-background-radius: 4 4 4 4;
+    -fx-padding: 2px ;
+    -fx-background-color: #ff6569;
+    -fx-background-insets: 0px, 0px ;
+}
