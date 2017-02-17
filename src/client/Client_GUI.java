@@ -1,6 +1,7 @@
 package client;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -14,10 +15,12 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import utility.Message;
+import utility.MessageCell;
 import utility.UserCell;
 
 public class Client_GUI extends Application implements Runnable  {
@@ -25,10 +28,12 @@ public class Client_GUI extends Application implements Runnable  {
     private int port_number;
     private String user_name;
     private Client client;
-    private TextArea history;
+    private ListView<String> history_list_view;
     private TextArea text;
     private ListView<String> user_list_view;
     private ObservableList<String> user_observable_list;
+    private ObservableList<String> history_observable_list;
+    private ArrayList<String> history = new ArrayList<String>();
     
 	public Client_GUI(String host, int port, String user, Client client) {
 		this.host_name = host;
@@ -52,13 +57,18 @@ public class Client_GUI extends Application implements Runnable  {
     	text.requestFocus();
     	root.getChildren().add(text);
     	
-        history = new TextArea();
-    	history.setLayoutX(5);
-    	history.setLayoutY(5);
-    	history.setEditable(false);
-    	history.setPrefSize(440, 385);
-    	history.setWrapText(true);
-    	root.getChildren().add(history);
+        history_list_view = new ListView<String>();
+    	history_list_view.setLayoutX(5);
+    	history_list_view.setLayoutY(5);
+    	history_list_view.setEditable(false);
+    	history_list_view.setPrefSize(440, 385);
+        history_list_view.setCellFactory((ListView<String> l) -> new MessageCell());
+       
+        
+        
+        history_list_view.setStyle("-fx-background-color: transparent;");
+    	root.getChildren().add(history_list_view);
+    	user_observable_list = FXCollections.observableArrayList();
     	
     	Button sendButton = new Button();
     	sendButton.setLayoutX(350);
@@ -79,6 +89,13 @@ public class Client_GUI extends Application implements Runnable  {
     	stage.setScene(scene);
     	
     	stage.show();
+    	
+    	history_list_view.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                event.consume();
+            }
+        });
     	
     	text.setOnKeyPressed(new EventHandler<KeyEvent>()
         {
@@ -123,11 +140,13 @@ public class Client_GUI extends Application implements Runnable  {
 		Platform.runLater(new Runnable(){
 			@Override
 			public void run() {
-				history.appendText(message.getOrigin() + ": " + message.getMessage() + "\n");
-				user_observable_list = FXCollections.observableArrayList(message.getUsers());
+				history.add(message.getOrigin() + ": " + message.getMessage() + "\n");
+				history_observable_list = FXCollections.observableArrayList(history);
 				user_observable_list.clear();
 				user_observable_list = FXCollections.observableArrayList(message.getUsers());
 				user_list_view.setItems(user_observable_list);
+				history_list_view.setItems(history_observable_list);
+				history_list_view.scrollTo(history.size()-1); 
 			}
 		});
 	}

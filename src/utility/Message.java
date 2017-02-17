@@ -21,7 +21,6 @@ public class Message implements Serializable {
 	}
 	
 	public void setUsers(ArrayList<String> users){
-		
 	}
 	
 	public String getMessage(){

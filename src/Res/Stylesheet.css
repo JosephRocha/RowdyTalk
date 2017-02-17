@@ -6,10 +6,22 @@
 	-fx-background-color: #f36f3f; -fx-text-fill: #0c2340;
 }
 
-.list-view:disabled {
-    -fx-opacity: -fx-disabled-opacity;
-}
-
 .label {
 	-fx-text-fill: #f15a22;
+}
+
+.list-view:disabled {
+	-fx-opacity: 1.0; -fx-disabled-opacity: 1.0;
+}
+
+.list-cell {
+	-fx-border-radius: 4 4 4 4;
+    -fx-background-radius: 4 4 4 4;
+    -fx-padding: 4px ;
+    -fx-background-color: transparent, -fx-background ;
+    -fx-background-insets: 0px, 2px ;
+}
+
+.list-cell:empty {
+    -fx-background-color: transparent ;
 }
