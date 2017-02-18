@@ -10,9 +10,6 @@ public class Message implements Serializable {
 	public ArrayList<String> user_list = new ArrayList<String>();
 	private MessageType type;
 	
-	public Message(){	
-	}
-	
 	public void setMessage(String message){
 		this.message_content = message;
 	}
@@ -22,6 +19,7 @@ public class Message implements Serializable {
 	}
 	
 	public void setUsers(ArrayList<String> users){
+		user_list.addAll(users);
 	}
 	
 	public String getMessage(){

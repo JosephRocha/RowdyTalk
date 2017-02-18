@@ -31,6 +31,10 @@ public class MessageCell extends ListCell<Message> {
         	  text.setText(item.getMessage() + "\n");
         	  node.setId("errorMessage");
     	  }
+          if(item.getType() == MessageType.BOT){
+        	  text.setText(item.getOrigin() + ": " + item.getMessage() + "\n");
+        	  node.setId("botMessage");
+    	  }
     	node.setAlignment(Pos.CENTER);
         node.getChildren().add(text);
         text.setWrappingWidth(410);

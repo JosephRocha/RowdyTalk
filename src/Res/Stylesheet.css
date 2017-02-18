@@ -57,3 +57,11 @@
     -fx-background-color: #ff6569;
     -fx-background-insets: 0px, 0px ;
 }
+
+#botMessage{
+	-fx-border-radius: 4 4 4 4;
+    -fx-background-radius: 4 4 4 4;
+    -fx-padding: 2px ;
+    -fx-background-color: #00aaff;
+    -fx-background-insets: 0px, 0px ;
+}

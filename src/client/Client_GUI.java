@@ -151,6 +151,9 @@ public class Client_GUI extends Application implements Runnable  {
 				else
 				if(message.getOrigin().equals("ERROR"))
 					message.setType(MessageType.ERROR);
+				else
+				if(message.getOrigin().equals("Watson"))
+					message.setType(MessageType.BOT);
 				else	
 				message.setType(MessageType.RECEIVED);
 					
