@@ -1,5 +1,6 @@
 package client;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -13,10 +14,12 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import utility.Message;
@@ -35,6 +38,7 @@ public class Client_GUI extends Application implements Runnable  {
     private ObservableList<String> user_observable_list;
     private ObservableList<Message> history_observable_list;
     private ArrayList<Message> history = new ArrayList<Message>();
+    private FileChooser fileChooser = new FileChooser();
     
 	public Client_GUI(String host, int port, String user, Client client) {
 		this.host_name = host;
@@ -72,7 +76,7 @@ public class Client_GUI extends Application implements Runnable  {
     	Button sendButton = new Button();
     	sendButton.setLayoutX(350);
     	sendButton.setLayoutY(400);
-    	sendButton.setText("Send Message");
+    	sendButton.setText("Send Image");
     	sendButton.setPrefSize(95, 45);
     	root.getChildren().add(sendButton);
     	
@@ -120,13 +124,15 @@ public class Client_GUI extends Application implements Runnable  {
     	
     	  sendButton.setOnAction(new EventHandler<ActionEvent>() {
               @Override public void handle(ActionEvent e) {
-              	try {
-              		client.sendMessage(text.getText());
-              		text.clear();
-  				} catch (Exception e1) {
-  					// TODO Auto-generated catch block
-  					e1.printStackTrace();
-  				}
+            	  File file = fileChooser.showOpenDialog(stage);
+            	  if(file != null){
+            		  try {
+            			Image image = new Image("file:///" + file.getAbsolutePath());
+						client.sendPhoto(image);
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
+            	  }
               }
           });
     	  
@@ -142,7 +148,6 @@ public class Client_GUI extends Application implements Runnable  {
 		Platform.runLater(new Runnable(){
 			@Override
 			public void run() {
-				
 				if(message.getOrigin().equals(user_name))
 					message.setType(MessageType.SENT);
 				else	

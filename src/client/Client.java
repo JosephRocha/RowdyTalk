@@ -6,7 +6,9 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 
+import javafx.scene.image.Image;
 import utility.Message;
+import utility.MessageType;
 
 
 public class Client implements Runnable {
@@ -66,6 +68,15 @@ public class Client implements Runnable {
 	public void sendMessage(String msg) throws IOException{
 		Message newMessage = new Message();
 		newMessage.setMessage(msg);
+		newMessage.setOrigin(username);
+		object_output_stream.writeObject(newMessage);
+		object_output_stream.flush();
+	}
+	
+	public void sendPhoto(Image image) throws IOException{
+		Message newMessage = new Message();
+		newMessage.setImage(image);
+		newMessage.isImage = true;
 		newMessage.setOrigin(username);
 		object_output_stream.writeObject(newMessage);
 		object_output_stream.flush();

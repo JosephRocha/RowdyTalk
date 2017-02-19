@@ -1,7 +1,17 @@
 package utility;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+
+import javax.imageio.ImageIO;
+
+import javafx.embed.swing.SwingFXUtils;
+import javafx.scene.image.Image;
 
 public class Message implements Serializable {
 
@@ -9,6 +19,8 @@ public class Message implements Serializable {
 	private String origin_user;
 	public ArrayList<String> user_list = new ArrayList<String>();
 	private MessageType type;
+	public boolean isImage;
+	private byte[] imageBytes;
 	
 	public void setMessage(String message){
 		this.message_content = message;
@@ -40,5 +52,38 @@ public class Message implements Serializable {
 
 	public void setType(MessageType type) {
 		this.type = type;
+	}
+
+	public Image getImage() {
+		try {
+			BufferedImage img = ImageIO.read(new ByteArrayInputStream(imageBytes));
+			Image image = SwingFXUtils.toFXImage(img, null);
+			System.out.println(image.getHeight());
+			return image;
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	public void setImage(Image image) {
+		try {
+			BufferedImage bimage = SwingFXUtils.fromFXImage(image, null);
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			ImageIO.write(bimage, "png", baos);
+			baos.flush();
+			this.imageBytes = baos.toByteArray();
+			baos.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public boolean isImage() {
+		return isImage;
+	}
+
+	public void setIsImage(boolean isImage) {
+		this.isImage = isImage;
 	}
 }

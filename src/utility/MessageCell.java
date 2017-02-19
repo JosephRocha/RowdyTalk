@@ -2,6 +2,7 @@ package utility;
 
 import javafx.geometry.Pos;
 import javafx.scene.control.ListCell;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 
@@ -34,6 +35,14 @@ public class MessageCell extends ListCell<Message> {
           if(item.getType() == MessageType.BOT){
         	  text.setText(item.getOrigin() + ": " + item.getMessage() + "\n");
         	  node.setId("botMessage");
+    	  }
+          if(item.isImage()){
+        	  ImageView image_view = new ImageView();
+        	  image_view.setFitWidth(410);
+        	  image_view.setFitHeight(410);
+        	  image_view.setImage(item.getImage());
+        	  node.getChildren().add(image_view);
+        	  
     	  }
     	node.setAlignment(Pos.CENTER);
         node.getChildren().add(text);

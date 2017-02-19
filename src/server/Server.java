@@ -1,8 +1,6 @@
 package server;
 import java.net.*;
 import java.util.ArrayList;
-
-import utility.Bot;
 import utility.Message;
 import java.io.*;
  
@@ -14,7 +12,6 @@ public class Server {
     public static void main(String[] args) throws IOException {
          ServerSocket server = new ServerSocket(portNumber);
          try{
-        	 users.add("Watson");
         	 while(true){
         		 ServerHandler newConnection = new ServerHandler(server.accept());
         		 newConnection.start();
@@ -72,16 +69,7 @@ public class Server {
 	    			 while(socket.isConnected()){
 	    				 Message input_message = (Message) object_input_stream.readObject();
 	    				 if(input_message != null){
-	    					 broadcast(input_message);
-	    					 if(input_message.getMessage().toLowerCase().startsWith("@Watson ")){
-	    						 input_message.setMessage(input_message.getMessage().replaceAll("@Watson ", ""));
-	    						 Bot bot = new Bot();
-	    						 Message botreply = bot.getReply(input_message.getMessage());
-	    						 System.out.println(input_message.getMessage());
-	    						 broadcast(botreply);
-	    					 }
-	    					 
-	    					
+	    					 broadcast(input_message);	
 	    				 }
 	    			 }
 	    			 
