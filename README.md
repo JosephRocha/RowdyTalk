@@ -11,6 +11,6 @@ RowdyTalk is a lightweight chat application utilizing JavaFX.
 - Server GUI
 - Custom Chat Bubbles ✔ 2-17-2017
 - User-List ✔ 2-15-2017
-- Pictures
+- Pictures ✔ 2-19-2017
 - File Transfer
 
