@@ -15,4 +15,4 @@ RowdyTalk is a lightweight chat application utilizing JavaFX.
 - File Transfer
 
 # Non Released Demo Picture
-![Alt text](https://raw.githubusercontent.com/JosephARocha/RowdyTalk/master/resources/demo-nonprod.PNG "Screen shot showing dev")
+![Alt text](https://raw.githubusercontent.com/JosephARocha/RowdyTalk/master/resources/Demo4.PNG "Screen shot showing current nightly build")
