@@ -3,7 +3,7 @@ package utility;
 import javafx.geometry.Pos;
 import javafx.scene.control.ListCell;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 public class MessageCell extends ListCell<Message> {
@@ -12,9 +12,8 @@ public class MessageCell extends ListCell<Message> {
       super.updateItem(item, empty);
       if (item == null || empty) {
     	  setGraphic(null);
-    	  setStyle("");
       }else{
-          HBox node = new HBox();
+          VBox node = new VBox();
           Text text  = new Text(); 
           if(item.getType() == MessageType.SERVER){
         	  node.setId("serverMessage");
@@ -36,17 +35,17 @@ public class MessageCell extends ListCell<Message> {
         	  text.setText(item.getOrigin() + ": " + item.getMessage() + "\n");
         	  node.setId("botMessage");
     	  }
+          node.getChildren().add(text);
           if(item.isImage()){
+        	  text.setText(item.getOrigin() + ": " );
         	  ImageView image_view = new ImageView();
-        	  image_view.setFitWidth(410);
-        	  image_view.setFitHeight(410);
+        	  image_view.setFitWidth(250);
+        	  image_view.setFitHeight(250);
         	  image_view.setImage(item.getImage());
-        	  node.getChildren().add(image_view);
-        	  
+              node.getChildren().add(image_view);
     	  }
-    	node.setAlignment(Pos.CENTER);
-        node.getChildren().add(text);
-        text.setWrappingWidth(410);
+    	node.setAlignment(Pos.CENTER_LEFT);
+    	text.wrappingWidthProperty().bind(this.widthProperty().subtract(20));
         setGraphic(node);
       }
     }

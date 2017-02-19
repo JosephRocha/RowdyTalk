@@ -76,7 +76,7 @@ public class RowdyTalk extends Application {
     	rowdytalk_heading.setFont(new Font(45));
         root.getChildren().add(rowdytalk_heading);
 
-        primaryStage.setTitle("RowdyTalk Beta 1.2");
+        primaryStage.setTitle("RowdyTalk Beta 1.3");
         primaryStage.setScene(scene);
         primaryStage.setResizable(false);
         primaryStage.show();

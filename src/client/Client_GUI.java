@@ -15,6 +15,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -58,26 +59,33 @@ public class Client_GUI extends Application implements Runnable  {
     	text = new TextArea();
     	text.setLayoutX(5);
     	text.setLayoutY(400);
-    	text.setPrefSize(340, 45);
+    	text.setPrefSize(385, 45);
     	text.requestFocus();
+    	text.setWrapText(true);
     	root.getChildren().add(text);
     	
         history_list_view = new ListView<Message>();
     	history_list_view.setLayoutX(5);
     	history_list_view.setLayoutY(5);
     	history_list_view.setEditable(false);
-    	history_list_view.setPrefSize(440, 385);
+    	history_list_view.setPrefSize(440, 390);
     	history_observable_list = FXCollections.observableArrayList();
         history_list_view.setItems(history_observable_list);
         history_list_view.setCellFactory((ListView<Message> l) -> new MessageCell());
         history_list_view.setStyle("-fx-background-color: transparent;");
+      
     	root.getChildren().add(history_list_view);
     	
-    	Button sendButton = new Button();
-    	sendButton.setLayoutX(350);
+    	Image image = new Image("Res/camera.png");
+        ImageView imageView = new ImageView(image);
+        
+        imageView.setFitWidth(35);
+        imageView.setFitHeight(35);
+    	Button sendButton = new Button("",imageView);
+    	sendButton.setLayoutX(395);
     	sendButton.setLayoutY(400);
-    	sendButton.setText("Send Image");
-    	sendButton.setPrefSize(95, 45);
+    	sendButton.setText("");
+    	sendButton.setPrefSize(45, 44);
     	root.getChildren().add(sendButton);
     	
         user_list_view = new ListView<String>();
@@ -90,7 +98,16 @@ public class Client_GUI extends Application implements Runnable  {
         user_list_view.setCellFactory((ListView<String> l) -> new UserCell());
         root.getChildren().add(user_list_view);
 
-
+        history_list_view.prefWidthProperty().bind(root.widthProperty().subtract(user_list_view.widthProperty()).subtract(10));
+        history_list_view.prefHeightProperty().bind(root.heightProperty().subtract(text.heightProperty().add(15)));
+        user_list_view.layoutXProperty().bind(root.widthProperty().subtract(155));
+        user_list_view.prefHeightProperty().bind(root.heightProperty().subtract(10));
+        text.layoutYProperty().bind(root.heightProperty().subtract(text.heightProperty().add(5)));
+        text.prefWidthProperty().bind(root.widthProperty().subtract(user_list_view.widthProperty().add(20).add(sendButton.widthProperty())));
+        sendButton.layoutXProperty().bind(user_list_view.layoutXProperty().subtract(sendButton.widthProperty()).subtract(5));
+        sendButton.layoutYProperty().bind(root.heightProperty().subtract(sendButton.heightProperty()).subtract(6));
+        
+        
     	stage.setTitle("RowdyTalk @" + host_name + ":" + port_number);
     	stage.setScene(scene);
     	
@@ -127,8 +144,8 @@ public class Client_GUI extends Application implements Runnable  {
             	  File file = fileChooser.showOpenDialog(stage);
             	  if(file != null){
             		  try {
-            			Image image = new Image("file:///" + file.getAbsolutePath());
-						client.sendPhoto(image);
+            		  Image image = new Image("file:///" + file.getAbsolutePath());
+            		  client.sendPhoto(image);
 					} catch (IOException e1) {
 						e1.printStackTrace();
 					}

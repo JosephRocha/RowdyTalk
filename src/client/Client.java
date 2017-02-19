@@ -8,8 +8,6 @@ import java.net.Socket;
 
 import javafx.scene.image.Image;
 import utility.Message;
-import utility.MessageType;
-
 
 public class Client implements Runnable {
 	 String host_name;

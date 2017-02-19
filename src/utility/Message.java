@@ -4,7 +4,6 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -58,7 +57,6 @@ public class Message implements Serializable {
 		try {
 			BufferedImage img = ImageIO.read(new ByteArrayInputStream(imageBytes));
 			Image image = SwingFXUtils.toFXImage(img, null);
-			System.out.println(image.getHeight());
 			return image;
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -70,7 +68,7 @@ public class Message implements Serializable {
 		try {
 			BufferedImage bimage = SwingFXUtils.fromFXImage(image, null);
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			ImageIO.write(bimage, "png", baos);
+			ImageIO.write(bimage, "gif", baos);
 			baos.flush();
 			this.imageBytes = baos.toByteArray();
 			baos.close();
