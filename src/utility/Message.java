@@ -68,7 +68,7 @@ public class Message implements Serializable {
 		try {
 			BufferedImage bimage = SwingFXUtils.fromFXImage(image, null);
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			ImageIO.write(bimage, "gif", baos);
+			ImageIO.write(bimage, "png", baos);
 			baos.flush();
 			this.imageBytes = baos.toByteArray();
 			baos.close();

@@ -2,6 +2,7 @@ package utility;
 
 import javafx.geometry.Pos;
 import javafx.scene.control.ListCell;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -39,8 +40,9 @@ public class MessageCell extends ListCell<Message> {
           if(item.isImage()){
         	  text.setText(item.getOrigin() + ": " );
         	  ImageView image_view = new ImageView();
-        	  image_view.setFitWidth(250);
-        	  image_view.setFitHeight(250);
+        	  image_view.setPreserveRatio(true);
+        	  image_view.fitWidthProperty().bind(this.widthProperty().subtract(20));
+        	  image_view.setFitHeight(item.getImage().getHeight());
         	  image_view.setImage(item.getImage());
               node.getChildren().add(image_view);
     	  }

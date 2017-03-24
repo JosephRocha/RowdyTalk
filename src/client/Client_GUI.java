@@ -78,6 +78,7 @@ public class Client_GUI extends Application implements Runnable  {
     	
     	Image image = new Image("Res/camera.png");
         ImageView imageView = new ImageView(image);
+        //imageView.setPreserveRatio(true);
         
         imageView.setFitWidth(35);
         imageView.setFitHeight(35);
